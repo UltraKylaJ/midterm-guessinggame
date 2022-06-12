@@ -1,27 +1,27 @@
 import React, { useState } from 'react';
-import { Stack } from 'react-bootstrap';
+import Stack from 'react-bootstrap/Stack';
 import GuessingGame from './GuessingGame';
 
 function App() {
-  const [luckyNumber, getLucky] = useState()
-  const [currentGuess, userGuess] = useState()
+  const [luckyNum, getLucky] = useState(null)
+  const [currentGuess, userGuess] = useState(null)
   const [guesses, userGuesses] = useState(null)
 
-  // getLucky() {
-  //   //
-  // }
+  function resetButton(luckyNum) {
+    getLucky(luckyNum);
+  }
 
-  // userGuess() {
-  //   //
-  // }
+  function guessButton(currentGuess) {
+    userGuess(currentGuess)
+  }
 
-  // userGuesses() {
-  //   //
-  // }
+  function numberOfGuesses(guesses) {
+    userGuesses(guesses)
+  }
 
   return (
     <Stack gap={3} className="col-md-10 mx-auto">
-      <GuessingGame />
+      <GuessingGame onLucky={resetButton} onGuess={guessButton} onGuesses={numberOfGuesses} />
     </Stack>
   );
 }
