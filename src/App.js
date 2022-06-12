@@ -1,17 +1,28 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { Stack } from 'react-bootstrap';
+import GuessingGame from './GuessingGame';
 
 function App() {
+  const [luckyNumber, getLucky] = useState()
+  const [currentGuess, userGuess] = useState()
+  const [guesses, userGuesses] = useState(null)
+
+  // getLucky() {
+  //   //
+  // }
+
+  // userGuess() {
+  //   //
+  // }
+
+  // userGuesses() {
+  //   //
+  // }
+
   return (
-    <div style={{ textAlign: 'center' }}>
-      <header>
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a href="https://reactjs.org" target="_blank" rel="noopener noreferrer">
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Stack gap={3} className="col-md-10 mx-auto">
+      <GuessingGame />
+    </Stack>
   );
 }
 
