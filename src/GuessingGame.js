@@ -2,26 +2,13 @@ import React, { useState, useEffect } from 'react';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 
-
-// Create a new Function Component called GuessingGame that renders the following:
-
-    // A paragraph that says "You have made 0 guesses," and displays the number 
-        // of guesses the user has made
-    // A paragraph that displays a message to the user indicating whether the 
-        // user has guessed correctly, too high, or too low
-    // A "Reset" button that resets the game by picking a new number to guess 
-        // and resetting the number of guesses back to 0
-
-
-
 function GuessingGame(props) {
     const [luckyNum, setLucky] = useState(null)
     const [currentGuess, userGuess] = useState("")
     const [guesses, setGuesses] = useState(null)
     const [goldilocks, setMessage] = useState("Start guessing!")
 
-
-useEffect(() => {
+    useEffect(() => {
         if (luckyNum === null) {
             setLucky(
                 JSON.parse(localStorage.getItem("luckyNumber")) || getLuckyNumber()
@@ -32,10 +19,11 @@ useEffect(() => {
                 JSON.parse(localStorage.getItem("timesGuessed")) || 0
             )
         }
-}, [])
+    }, [])
 
 
-    function guessSubmitted() {
+    function guessSubmitted(event) {
+        event.preventDefault();
         let parsedGuess = parseInt(currentGuess)
 
         if ( parsedGuess === luckyNum) {
@@ -52,7 +40,7 @@ useEffect(() => {
 
 
     function getLuckyNumber() {
-        let luckyNum = Math.floor(Math.random() * 100);
+        let luckyNum = Math.floor(Math.random() * 101);
 
         localStorage.setItem("luckyNumber", JSON.stringify(luckyNum));
 
@@ -68,7 +56,9 @@ useEffect(() => {
     }
     
     function resetButton() {
-        this.onLucky(luckyNum)
+        getLuckyNumber();
+        setMessage("Start guessing!");
+        setGuesses(0);
     }
     
     return (
