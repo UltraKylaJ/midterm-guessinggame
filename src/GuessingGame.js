@@ -1,11 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
-import GameActions from './GameActions';
+
 
 // Create a new Function Component called GuessingGame that renders the following:
 
-    // A form with an input for the user's guess and a "Guess" button to submit
     // A paragraph that says "You have made 0 guesses," and displays the number 
         // of guesses the user has made
     // A paragraph that displays a message to the user indicating whether the 
@@ -16,63 +15,74 @@ import GameActions from './GameActions';
 
 
 function GuessingGame(props) {
-    // const [luckyNum, getLucky] = useState(null)
-    // const [currentGuess, userGuess] = useState({ num: "" })
-    // const [guesses, userGuesses] = useState(null)
-    // const [goldilocks, guess] = useState(null)
+    const [luckyNum, setLucky] = useState(null)
+    const [currentGuess, userGuess] = useState("")
+    const [guesses, setGuesses] = useState(null)
+    const [goldilocks, setMessage] = useState("Start guessing!")
 
-    
 
-    // function userGuesses(guesses) {
-    //     console.log(guesses)
-    // }
+useEffect(() => {
+        if (luckyNum === null) {
+            setLucky(
+                JSON.parse(localStorage.getItem("luckyNumber")) || getLuckyNumber()
+            )
+        }
+        if (guesses === null) {
+            setGuesses(
+                JSON.parse(localStorage.getItem("timesGuessed")) || 0
+            )
+        }
+}, [])
 
-    function getLucky() {
-        let luckyNum = Math.floor(Math.random() * 101);
-        // console.log(luckyNum)
+
+    function guessSubmitted() {
+        let parsedGuess = parseInt(currentGuess)
+
+        if ( parsedGuess === luckyNum) {
+            setMessage("Congrats! You guessed it!")
+        } else if ( parsedGuess > luckyNum) {
+            setMessage("Sorry, your number is too high.")
+        } else {
+            setMessage("Sorry, your number is too low.")
+        }
+
+        setGuesses(guesses + 1)
+        localStorage.setItem("timesGuessed", JSON.stringify(guesses + 1))
+    }
+
+
+    function getLuckyNumber() {
+        let luckyNum = Math.floor(Math.random() * 100);
+
+        localStorage.setItem("luckyNumber", JSON.stringify(luckyNum));
+
         return luckyNum;
     }
 
-    function guess() {
-        const [guesses, setGuesses] = useState(0)
-
-        function userGuesses(event) {
-            () => setGuesses(guesses + 1)
-        }
-
-        if (currentGuess === luckyNum) {
-            return (
-                goldilocks = "Congrats! You guessed it!"
-            );
-        } else if (currentGuess > luckyNum) {
-            return (
-                goldilocks = "Sorry, your number is too high."
-            );
+    function updateGuess(event) {
+        if (isNaN(event.target.value)) {
+            alert("hey type in a number")
         } else {
-            return (
-                goldilocks = "Sorry, your number is too low."
-            );
+            userGuess(event.target.value)
         }
-
-        // called onClick of the Guess button
-        // checks that currentguess/userGuess() === luckyNum
-        // displays goldilocks message
-        // increments the guesses/userGuesses() by 1
-        // use useState variable to represent goldilocks message
+    }
+    
+    function resetButton() {
+        this.onLucky(luckyNum)
     }
     
     return (
         <Form>
             <Form.Group className='mb-3' >
                 <Form.Label>"I am thinking of a number between 1 and 100. Guess the Lucky Number!"</Form.Label>
-                <Form.Control type='number' />
+                <Form.Control type='number' onChange={updateGuess} placeholder="Enter Guess" />
             </Form.Group>
-            <Button type='submit' onClick={guess}>Guess</Button>
             <Form.Group className='mb-3' >
-                <p>You have made {guess.userGuesses} guesses.</p>
-                <p>You guessed {goldilocks}</p>
+                <p>You have made {guesses} guesses.</p>
+                <Button type='submit' onClick={guessSubmitted} >Guess</Button>
+                <p>{goldilocks}</p>
             </Form.Group>
-            <Button type='reset' onClick={getLucky}>Reset</Button>
+            <Button type='reset' onClick={resetButton}>Reset</Button>
         </Form>
     )
 }
