@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
+import styles from './GuessingGame.module.css';
 
 function GuessingGame(props) {
     const [luckyNum, setLucky] = useState(null)
@@ -48,11 +49,7 @@ function GuessingGame(props) {
     }
 
     function updateGuess(event) {
-        if (isNaN(event.target.value)) {
-            alert("hey type in a number")
-        } else {
-            userGuess(event.target.value)
-        }
+        userGuess(event.target.value)
     }
     
     function resetButton() {
@@ -64,15 +61,18 @@ function GuessingGame(props) {
     return (
         <Form>
             <Form.Group className='mb-3' >
-                <Form.Label>"I am thinking of a number between 1 and 100. Guess the Lucky Number!"</Form.Label>
-                <Form.Control type='number' onChange={updateGuess} placeholder="Enter Guess" />
+                <p className={styles.center}>"I am thinking of a number between 1 and 100. Guess the Lucky Number!"</p>
+                <Form.Control type='number' className={styles.center} onChange={updateGuess} placeholder="Enter Guess" />
             </Form.Group>
-            <Form.Group className='mb-3' >
+            <div className={styles.center} >
                 <p>You have made {guesses} guesses.</p>
-                <Button type='submit' onClick={guessSubmitted} >Guess</Button>
                 <p>{goldilocks}</p>
-            </Form.Group>
-            <Button type='reset' onClick={resetButton}>Reset</Button>
+            </div>
+            <div className={styles.container}>
+                <Button className={styles.btn} type='submit' onClick={guessSubmitted} >Guess</Button>
+                <Button className={styles.btn} type='reset' onClick={resetButton}>Reset</Button>
+            </div>
+            
         </Form>
     )
 }

@@ -1,0 +1,36 @@
+.center {
+    text-align: center;
+}
+
+.container {
+    padding: 2rem;
+    display: flex;
+    justify-content: space-evenly;
+}
+
+html {
+    background-color: #F1FF99;
+    margin: auto 4rem;
+}
+
+body {
+    background-color: #ADBDFF;
+    margin: 5rem auto;
+    padding: 5rem 0;
+    border-color: #05668D;
+    border-style: groove;
+    border-width: 2rem;
+}
+
+.btn {
+    width: 15rem;
+    background-color: #F26989;
+    border-color: #F26989;
+    color: white;
+}
+
+.btn:hover {
+    background-color: white;
+    border-color: #01c6bc;
+    color: #01c6bc;
+}
